@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.TItemMapper">
+  <resultMap id="BaseResultMap" type="model.TItem">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="prix" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="repertory" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="barcode" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="t_explain" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="status" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="created_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, prix, repertory, barcode, t_explain, status, created_date, update_date
+  </sql>
+  <select id="selectByExample" parameterType="model.TItemExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="model.TItemExample">
+    delete from t_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="model.TItem">
+    insert into t_item (id, name, prix, 
+      repertory, barcode, t_explain, 
+      status, created_date, update_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{prix,jdbcType=INTEGER}, 
+      #{repertory,jdbcType=INTEGER}, #{barcode,jdbcType=VARCHAR}, #{tExplain,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{createdDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="model.TItem">
+    insert into t_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="prix != null">
+        prix,
+      </if>
+      <if test="repertory != null">
+        repertory,
+      </if>
+      <if test="barcode != null">
+        barcode,
+      </if>
+      <if test="tExplain != null">
+        t_explain,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="prix != null">
+        #{prix,jdbcType=INTEGER},
+      </if>
+      <if test="repertory != null">
+        #{repertory,jdbcType=INTEGER},
+      </if>
+      <if test="barcode != null">
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="tExplain != null">
+        #{tExplain,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="model.TItemExample" resultType="java.lang.Integer">
+    select count(*) from t_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_item
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prix != null">
+        prix = #{record.prix,jdbcType=INTEGER},
+      </if>
+      <if test="record.repertory != null">
+        repertory = #{record.repertory,jdbcType=INTEGER},
+      </if>
+      <if test="record.barcode != null">
+        barcode = #{record.barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tExplain != null">
+        t_explain = #{record.tExplain,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdDate != null">
+        created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_item
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      prix = #{record.prix,jdbcType=INTEGER},
+      repertory = #{record.repertory,jdbcType=INTEGER},
+      barcode = #{record.barcode,jdbcType=VARCHAR},
+      t_explain = #{record.tExplain,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="model.TItem">
+    update t_item
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="prix != null">
+        prix = #{prix,jdbcType=INTEGER},
+      </if>
+      <if test="repertory != null">
+        repertory = #{repertory,jdbcType=INTEGER},
+      </if>
+      <if test="barcode != null">
+        barcode = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="tExplain != null">
+        t_explain = #{tExplain,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdDate != null">
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="model.TItem">
+    update t_item
+    set name = #{name,jdbcType=VARCHAR},
+      prix = #{prix,jdbcType=INTEGER},
+      repertory = #{repertory,jdbcType=INTEGER},
+      barcode = #{barcode,jdbcType=VARCHAR},
+      t_explain = #{tExplain,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="model.TItem">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="prix" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="repertory" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="barcode" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="explain" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="status" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="created_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, prix, repertory, barcode, explain, status, created_date, update_date
+  </sql>
+  <select id="selectByExample" parameterType="model.TItemExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="model.TItemExample">
+    delete from t_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="model.TItem">
+    insert into t_item (id, name, prix, 
+      repertory, barcode, explain, 
+      status, created_date, update_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{prix,jdbcType=INTEGER}, 
+      #{repertory,jdbcType=INTEGER}, #{barcode,jdbcType=VARCHAR}, #{explain,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{createdDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="model.TItem">
+    insert into t_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="prix != null">
+        prix,
+      </if>
+      <if test="repertory != null">
+        repertory,
+      </if>
+      <if test="barcode != null">
+        barcode,
+      </if>
+      <if test="explain != null">
+        explain,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="prix != null">
+        #{prix,jdbcType=INTEGER},
+      </if>
+      <if test="repertory != null">
+        #{repertory,jdbcType=INTEGER},
+      </if>
+      <if test="barcode != null">
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="explain != null">
+        #{explain,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="model.TItemExample" resultType="java.lang.Integer">
+    select count(*) from t_item
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_item
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prix != null">
+        prix = #{record.prix,jdbcType=INTEGER},
+      </if>
+      <if test="record.repertory != null">
+        repertory = #{record.repertory,jdbcType=INTEGER},
+      </if>
+      <if test="record.barcode != null">
+        barcode = #{record.barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.explain != null">
+        explain = #{record.explain,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdDate != null">
+        created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_item
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      prix = #{record.prix,jdbcType=INTEGER},
+      repertory = #{record.repertory,jdbcType=INTEGER},
+      barcode = #{record.barcode,jdbcType=VARCHAR},
+      explain = #{record.explain,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="model.TItem">
+    update t_item
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="prix != null">
+        prix = #{prix,jdbcType=INTEGER},
+      </if>
+      <if test="repertory != null">
+        repertory = #{repertory,jdbcType=INTEGER},
+      </if>
+      <if test="barcode != null">
+        barcode = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="explain != null">
+        explain = #{explain,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdDate != null">
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="model.TItem">
+    update t_item
+    set name = #{name,jdbcType=VARCHAR},
+      prix = #{prix,jdbcType=INTEGER},
+      repertory = #{repertory,jdbcType=INTEGER},
+      barcode = #{barcode,jdbcType=VARCHAR},
+      explain = #{explain,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
